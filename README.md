@@ -13,19 +13,21 @@ Make sure you have Python 3 installed. Navigate to the project root folder in yo
 
 ## Project Structure
 
-SOC-LOG-ANALYZER/
-├── logs/ # Sample log files
-│ └── sample_logs.json
-├── src/
-│ ├── pycache/ # Python cache (ignored by git)
-│ ├── init.py # Makes src a package
-│ ├── analyzer.py # Combines detectors and returns alerts
-│ ├── detector.py # Contains detection logic for alerts
-│ └── parser.py # Loads and parses log files
-├── main.py # Entry point for running the project
-├── .gitignore # Files/folders ignored by Git
-├── requirements.txt # Optional dependencies
-└── README.md # Project description
+## Project Structure
+
+    SOC-LOG-ANALYZER/
+    ├── logs/                    # Sample log files
+    │   └── sample_logs.json
+    ├── src/
+    │   ├── __pycache__/        # Python cache (ignored by git)
+    │   ├── __init__.py         # Makes src a package
+    │   ├── analyzer.py         # Combines detectors and returns alerts
+    │   ├── detector.py         # Contains detection logic for alerts
+    │   └── parser.py           # Loads and parses log files
+    ├── main.py                 # Entry point for running the project
+    ├── .gitignore              # Files/folders ignored by Git
+    ├── requirements.txt        # Optional dependencies
+    └── README.md               # Project description
 
 ## Notes
 
