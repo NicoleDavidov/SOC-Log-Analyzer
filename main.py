@@ -9,5 +9,8 @@ def main():
     for alert in alerts:
         print(alert)
 
+
+        
+
 if __name__ == "__main__":
     main()
