@@ -1,16 +1,13 @@
-from src.parser import load_logs
+from src.log_generator import generate_logs
 from src.analyzer import analyze_logs
 
 def main():
-    logs = load_logs("logs/sample_logs.json")
+    logs = generate_logs()
     alerts = analyze_logs(logs)
 
     print("=== Security Alerts ===")
     for alert in alerts:
-        print(alert)
-
-
-        
+        print(f"[{alert['severity']}] {alert['type']} - {alert['message']}")
 
 if __name__ == "__main__":
     main()
