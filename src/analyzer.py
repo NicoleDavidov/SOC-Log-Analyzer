@@ -2,6 +2,7 @@ import json
 from collections import defaultdict
 from datetime import datetime
 from src.ml_detector import detect_anomalies
+import re
 
 # =========================
 # Configuration
@@ -102,3 +103,62 @@ def analyze_logs(logs):
         print("AI detection failed:", e)
 
     return alerts
+
+
+
+# Risk Score
+def calculate_risk_scores(alerts):
+    risk_scores = defaultdict(int)
+
+    for alert in alerts:
+        ip = extract_ip(alert["message"])
+
+        if not ip:
+            continue
+
+        if alert["severity"] == "HIGH":
+            risk_scores[ip] += 10
+        elif alert["severity"] == "MEDIUM":
+            risk_scores[ip] += 5
+        elif alert["severity"] == "LOW":
+            risk_scores[ip] += 2
+
+    return risk_scores
+
+# Function that extracts IP from text
+def extract_ip(message):
+    match = re.search(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", message)
+    return match.group(0) if match else None
+
+def get_risk_level(score):
+    if score >= 30:
+        return "CRITICAL"
+    elif score >= 15:
+        return "HIGH"
+    elif score >= 5:
+        return "MEDIUM"
+    else:
+        return "LOW"
+    
+# Save to file function
+def save_alerts_to_file(alerts, filename="alerts.json"):
+    import json
+
+    with open(filename, "w") as f:
+        json.dump(alerts, f, indent=4)
+
+# Maintaining Risk Scores as well
+def save_risk_scores(risk_scores, filename="risk_scores.json"):
+    import json
+
+    data = []
+
+    for ip, score in risk_scores.items():
+        data.append({
+            "ip": ip,
+            "score": score,
+            "level": get_risk_level(score)
+        })
+
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
