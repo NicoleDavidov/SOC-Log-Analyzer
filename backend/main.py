@@ -1,21 +1,29 @@
 import os
+import json
 
 from src.log_generator import generate_logs
 from src.analyzer import (
     analyze_logs,
     calculate_risk_scores,
     get_risk_level,
-    save_alerts_to_file,
-    save_risk_scores
 )
 from src.parser import load_logs_from_json
 
 
 def main():
     # =========================
+    # Base & Output directories
+    # =========================
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    LOGS_DIR = os.path.join(BASE_DIR, "logs")
+    OUTPUT_DIR = os.path.join(BASE_DIR, "output")
+
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    # =========================
     # Load logs (JSON or Generate)
     # =========================
-    json_path = "logs/sample_logs.json"
+    json_path = os.path.join(LOGS_DIR, "sample_logs.json")
 
     if os.path.exists(json_path):
         print("Loading logs from JSON file...\n")
@@ -48,10 +56,16 @@ def main():
         print(f"{ip} -> Score: {score} ({level})")
 
     # =========================
-    # Save results
+    # Save results (INSIDE BACKEND/OUTPUT)
     # =========================
-    save_alerts_to_file(alerts)
-    save_risk_scores(risk_scores)
+    alerts_path = os.path.join(OUTPUT_DIR, "alerts.json")
+    risk_path = os.path.join(OUTPUT_DIR, "risk_scores.json")
+
+    with open(alerts_path, "w") as f:
+        json.dump(alerts, f, indent=4)
+
+    with open(risk_path, "w") as f:
+        json.dump(risk_scores, f, indent=4)
 
     # =========================
     # Summary
@@ -65,6 +79,8 @@ def main():
 
     print(f"Total alerts: {total}")
     print(f"HIGH: {high} | MEDIUM: {medium} | LOW: {low}")
+
+    print(f"\nResults saved to: {OUTPUT_DIR}")
 
 
 if __name__ == "__main__":
