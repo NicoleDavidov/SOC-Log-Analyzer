@@ -1,0 +1,67 @@
+[
+    {
+        "type": "CREDENTIAL_STUFFING",
+        "severity": "MEDIUM",
+        "message": "10.0.0.5 tried 4 different users"
+    },
+    {
+        "type": "CREDENTIAL_STUFFING",
+        "severity": "MEDIUM",
+        "message": "192.168.1.20 tried 4 different users"
+    },
+    {
+        "type": "CREDENTIAL_STUFFING",
+        "severity": "MEDIUM",
+        "message": "172.16.0.3 tried 4 different users"
+    },
+    {
+        "type": "CREDENTIAL_STUFFING",
+        "severity": "MEDIUM",
+        "message": "192.168.1.10 tried 3 different users"
+    },
+    {
+        "type": "CREDENTIAL_STUFFING",
+        "severity": "MEDIUM",
+        "message": "192.168.1.300 tried 4 different users"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "admin logged in at 4:00 from 172.16.0.3"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "test logged in at 2:00 from 172.16.0.3"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "guest logged in at 1:00 from 10.0.0.5"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "admin logged in at 3:00 from 192.168.1.10"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "admin logged in at 2:00 from 172.16.0.3"
+    },
+    {
+        "type": "SUSPICIOUS_TIME",
+        "severity": "LOW",
+        "message": "admin logged in at 1:00 from 10.0.0.5"
+    },
+    {
+        "type": "ANOMALY",
+        "severity": "HIGH",
+        "message": "Unusual behavior detected from IP 172.16.0.3 (score=-0.017)"
+    },
+    {
+        "type": "ANOMALY",
+        "severity": "HIGH",
+        "message": "Unusual behavior detected from IP 192.168.1.100 (score=-0.019)"
+    }
+]
