@@ -1,30 +1,69 @@
-import { useEffect, useState } from "react";
-import { fetchAlerts } from "../services/api";
-
 function AlertTable() {
-  const [alerts, setAlerts] = useState([]);
 
-  useEffect(() => {
-    fetchAlerts().then(setAlerts);
-  }, []);
+  const alerts = [
+    { id: 1, ip: "192.168.1.10", severity: "High", type: "Brute Force" },
+    { id: 2, ip: "192.168.1.23", severity: "Medium", type: "Port Scan" },
+    { id: 3, ip: "192.168.1.45", severity: "Low", type: "Login Attempt" },
+  ];
+
+  const getSeverityColor = (severity) => {
+    if (severity === "High") return "#ef4444";
+    if (severity === "Medium") return "#f59e0b";
+    return "#10b981";
+  };
 
   return (
-    <div>
-      <h2>Detected Alerts</h2>
-      <table border="1">
+    <div
+      style={{
+        background: "#1e293b",
+        padding: "20px",
+        borderRadius: "10px",
+        marginTop: "20px",
+      }}
+    >
+      <h2 style={{ color: "white", marginBottom: "15px" }}>
+        Recent Alerts
+      </h2>
+
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          color: "white",
+        }}
+      >
         <thead>
-          <tr>
-            <th>IP</th>
-            <th>Type</th>
-            <th>Severity</th>
+          <tr style={{ textAlign: "left", borderBottom: "1px solid #334155" }}>
+            <th style={{ padding: "10px" }}>ID</th>
+            <th style={{ padding: "10px" }}>IP</th>
+            <th style={{ padding: "10px" }}>Severity</th>
+            <th style={{ padding: "10px" }}>Type</th>
           </tr>
         </thead>
+
         <tbody>
-          {alerts.map((alert, index) => (
-            <tr key={index}>
-              <td>{alert.ip}</td>
-              <td>{alert.type}</td>
-              <td>{alert.severity}</td>
+          {alerts.map((alert) => (
+            <tr
+              key={alert.id}
+              style={{
+                borderBottom: "1px solid #334155",
+              }}
+            >
+              <td style={{ padding: "10px" }}>{alert.id}</td>
+
+              <td style={{ padding: "10px" }}>{alert.ip}</td>
+
+              <td
+                style={{
+                  padding: "10px",
+                  color: getSeverityColor(alert.severity),
+                  fontWeight: "bold",
+                }}
+              >
+                {alert.severity}
+              </td>
+
+              <td style={{ padding: "10px" }}>{alert.type}</td>
             </tr>
           ))}
         </tbody>

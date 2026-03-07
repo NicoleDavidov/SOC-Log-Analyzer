@@ -1,12 +1,24 @@
 import AlertTable from "./components/AlertTable";
 import RiskOverview from "./components/RiskOverview";
+import AlertChart from "./components/AlertChart";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "#111", color: "#0f0", minHeight: "100vh", padding: "20px" }}>
-      <h1>SOC Monitoring Console</h1>
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#0f172a",
+      padding: "20px",
+      fontFamily: "Arial"
+    }}>
+      
+      <h1 style={{color:"white", marginBottom:"20px"}}>
+        SOC Monitoring Dashboard
+      </h1>
+
       <RiskOverview />
+      <AlertChart />
       <AlertTable />
+
     </div>
   );
 }
