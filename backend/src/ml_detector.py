@@ -58,9 +58,12 @@ def detect_anomalies(logs):
     for i, pred in enumerate(predictions):
         if pred == -1:
             alerts.append({
+                "id": len(alerts) + 1,
                 "type": "ANOMALY",
                 "severity": "HIGH",
-                "message": f"Unusual behavior detected from IP {ips[i]} (score={round(scores[i], 3)})"
+                "score": round(scores[i], 3),
+                "ip": ips[i],
+                "message": f"Unusual behavior detected from IP {ips[i]} (score={round(scores[i],3)})"
             })
 
     return alerts

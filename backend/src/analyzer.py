@@ -46,10 +46,12 @@ def analyze_logs(logs):
             # Success after fails (Brute force success)
             if failed_attempts[ip] > 0:
                 alerts.append({
-                    "type": "SUCCESS_AFTER_FAIL",
-                    "severity": "HIGH",
-                    "message": f"IP {ip} succeeded after {failed_attempts[ip]} failures"
-                })
+                "type": "SUCCESS_AFTER_FAIL",
+                "severity": "HIGH",
+                "ip": ip,
+                "timestamp": log.get("timestamp"),
+                "message": f"IP {ip} succeeded after {failed_attempts[ip]} failures"
+            })
                 # Reset counter after success
                 failed_attempts[ip] = 0
 
@@ -59,10 +61,11 @@ def analyze_logs(logs):
     for ip, count in failed_attempts.items():
         if count >= BRUTE_FORCE_THRESHOLD:
             alerts.append({
-                "type": "BRUTE_FORCE",
-                "severity": "HIGH",
-                "message": f"{count} failed attempts from {ip}"
-            })
+            "type": "BRUTE_FORCE",
+            "severity": "HIGH",
+            "ip": ip,
+            "message": f"{count} failed attempts from {ip}"
+        })
 
     # =========================
     # Credential Stuffing Detection
@@ -70,10 +73,12 @@ def analyze_logs(logs):
     for ip, users in users_per_ip.items():
         if len(users) >= MULTI_USER_THRESHOLD:
             alerts.append({
-                "type": "CREDENTIAL_STUFFING",
-                "severity": "MEDIUM",
-                "message": f"{ip} tried {len(users)} different users"
-            })
+            "id": len(alerts) + 1,
+            "type": "CREDENTIAL_STUFFING",
+            "severity": "MEDIUM",
+            "ip": ip,
+            "message": f"{ip} tried {len(users)} different users"
+        })
 
     # =========================
     # Suspicious Login Time
@@ -85,9 +90,11 @@ def analyze_logs(logs):
 
             if log.get("action") == "login_success" and (hour < 6 or hour > 23):
                 alerts.append({
+                    "id": len(alerts) + 1,
                     "type": "SUSPICIOUS_TIME",
                     "severity": "LOW",
-                    "message": f"{log.get('user')} logged in at {hour}:00 from {log.get('ip')}"
+                    "ip": ip,
+                    "message": f"{user} logged in at {hour}:00 from {ip}"
                 })
         except Exception:
             # skip invalid timestamps

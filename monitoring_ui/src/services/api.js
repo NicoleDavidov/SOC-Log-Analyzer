@@ -1,11 +1,9 @@
-const BASE_URL = "http://localhost:5000";
+export async function fetchAlerts() {
+  const res = await fetch("http://localhost:5000/alerts")
+  return res.json()
+}
 
-export const fetchAlerts = async () => {
-  const res = await fetch(`${BASE_URL}/alerts`);
-  return res.json();
-};
-
-export const fetchRiskScores = async () => {
-  const res = await fetch(`${BASE_URL}/risk-scores`);
-  return res.json();
-};
+export async function fetchRiskScores() {
+  const res = await fetch("http://localhost:5000/risk-scores")
+  return res.json()
+}

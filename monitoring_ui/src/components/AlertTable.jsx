@@ -1,10 +1,18 @@
+import { useEffect, useState } from "react";
+import { fetchAlerts } from "../services/api";
+
 function AlertTable() {
 
-  const alerts = [
-    { id: 1, ip: "192.168.1.10", severity: "High", type: "Brute Force" },
-    { id: 2, ip: "192.168.1.23", severity: "Medium", type: "Port Scan" },
-    { id: 3, ip: "192.168.1.45", severity: "Low", type: "Login Attempt" },
-  ];
+  const [alerts, setAlerts] = useState([]);
+
+  useEffect(() => {
+    async function loadAlerts() {
+      const data = await fetchAlerts();
+      setAlerts(data);
+    }
+
+    loadAlerts();
+  }, []);
 
   const getSeverityColor = (severity) => {
     if (severity === "High") return "#ef4444";
@@ -38,6 +46,7 @@ function AlertTable() {
             <th style={{ padding: "10px" }}>IP</th>
             <th style={{ padding: "10px" }}>Severity</th>
             <th style={{ padding: "10px" }}>Type</th>
+            <th style={{ padding: "10px" }}>Message</th>
           </tr>
         </thead>
 
@@ -64,6 +73,8 @@ function AlertTable() {
               </td>
 
               <td style={{ padding: "10px" }}>{alert.type}</td>
+
+              <td style={{ padding: "10px" }}>{alert.message}</td>
             </tr>
           ))}
         </tbody>
