@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 
 from src.log_generator import generate_logs
 from src.analyzer import (
@@ -8,6 +9,13 @@ from src.analyzer import (
     get_risk_level,
 )
 from src.parser import load_logs_from_json
+
+
+# =========================
+# Mode selection
+# =========================
+MODE = "generate"
+# MODE = "load"
 
 
 def main():
@@ -25,9 +33,10 @@ def main():
     # =========================
     json_path = os.path.join(LOGS_DIR, "sample_logs.json")
 
-    if os.path.exists(json_path):
+    if MODE == "load" and os.path.exists(json_path):
         print("Loading logs from JSON file...\n")
         logs = load_logs_from_json(json_path)
+
     else:
         print("Generating simulated logs...\n")
         logs = generate_logs()
@@ -36,13 +45,19 @@ def main():
     # Analyze logs
     # =========================
     alerts = analyze_logs(logs)
+    
+    # Sort alerts by timestamp (newest first)
+    alerts.sort(
+        key=lambda x: datetime.strptime(x["timestamp"], "%Y-%m-%d %H:%M:%S"),
+        reverse=True
+    )
 
     # =========================
     # Print Alerts
     # =========================
     print("=== Security Alerts ===")
     for alert in alerts:
-        print(f"[{alert['severity']}] {alert['type']} - {alert['message']}")
+        print(f"{alert['timestamp']} - [{alert['severity']}] - {alert['type']} - {alert['message']}")
 
     # =========================
     # Risk Scores

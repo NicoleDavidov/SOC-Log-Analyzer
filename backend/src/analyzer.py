@@ -61,6 +61,8 @@ def analyze_logs(logs):
     for ip, count in failed_attempts.items():
         if count >= BRUTE_FORCE_THRESHOLD:
             alerts.append({
+            "id":len(alerts)+1,
+            "timestamp": log["timestamp"],
             "type": "BRUTE_FORCE",
             "severity": "HIGH",
             "ip": ip,
@@ -74,6 +76,7 @@ def analyze_logs(logs):
         if len(users) >= MULTI_USER_THRESHOLD:
             alerts.append({
             "id": len(alerts) + 1,
+            "timestamp": log["timestamp"],
             "type": "CREDENTIAL_STUFFING",
             "severity": "MEDIUM",
             "ip": ip,
@@ -91,6 +94,7 @@ def analyze_logs(logs):
             if log.get("action") == "login_success" and (hour < 6 or hour > 23):
                 alerts.append({
                     "id": len(alerts) + 1,
+                    "timestamp": log["timestamp"],
                     "type": "SUSPICIOUS_TIME",
                     "severity": "LOW",
                     "ip": ip,
